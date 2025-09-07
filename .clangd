@@ -1,0 +1,23 @@
+CompileFlags:
+  Add:
+    - "-std=c++23"
+    - "-I/opt/homebrew/include"
+    - "-Wall"
+    - "-Wextra"
+  Remove:
+    - "-W*"  # Remove all warning flags first, then add back the ones we want
+
+Index:
+  Background: Build
+
+Diagnostics:
+  UnusedIncludes: Strict
+  MissingIncludes: Strict
+
+InlayHints:
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
+
+Hover:
+  ShowAKA: true

@@ -4,7 +4,7 @@
 #include "vec2.hpp"
 
 namespace engine {
-class TransformComponent : public engine::Component {
+class TransformComponent : public Component {
 public:
   TransformComponent(int xIn, int yIn) : position(xIn, yIn) {}
   Vec2 position;

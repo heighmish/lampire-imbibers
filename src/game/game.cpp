@@ -1,7 +1,8 @@
 #include "../../include/game/game.hpp"
 #include "../../include/engine/entity.hpp"
 #include "../../include/engine/entity_types.hpp"
-#include "../../include/engine/shape.hpp"
+#include "../../include/engine/renderable_component.hpp"
+#include "../../include/engine/shapes.hpp"
 #include "../../include/engine/transform_component.hpp"
 #include "../../include/engine/velocity_component.hpp"
 #include "raylib.h"
@@ -9,12 +10,18 @@
 #include <memory>
 
 namespace lampire {
+constexpr int PLAYER_WIDTH = 25;
+constexpr int PLAYER_HEIGHT = 25;
+
 Game::Game() {
   auto player = m_entityManager.addEntity(engine::Player);
-  player->shape = std::make_unique<engine::Shape>(engine::Triangle);
+  auto rect = engine::Rect{.height = PLAYER_HEIGHT, .width = PLAYER_WIDTH};
+  player->renderable =
+      std::make_unique<engine::RenderableComponent>(rect, GREEN);
   player->transform = std::make_unique<engine::TransformComponent>(
       GetScreenWidth() / 2, GetScreenHeight() / 2);
   player->velocity = std::make_unique<engine::VelocityComponent>(0, 0);
+  player->collider = std::make_unique<engine::ColliderComponent>(rect);
 }
 
 void Game::update() {
@@ -26,20 +33,7 @@ void Game::update() {
 
 void Game::render() {
   auto entities = m_entityManager.getEntities();
-  for (auto const &entity : entities) {
-    if (entity->transform && entity->shape) {
-      auto xPos = entity->transform->position.x;
-      auto yPos = entity->transform->position.y;
-      if (*entity->shape == engine::Triangle) {
-        DrawTriangle(Vector2(xPos, yPos), Vector2(xPos - 5, yPos + 5),
-                     Vector2(xPos + 5, yPos + 5), GREEN);
-      } else if (*entity->shape == engine::Square) {
-        DrawRectangle(xPos, yPos, 5, 5, RED);
-      } else if (*entity->shape == engine::Circle) {
-        DrawCircle(xPos, yPos, 5, BLUE);
-      }
-    }
-  }
+  m_renderer.renderEntities(entities);
 }
 void Game::shutdown() {}
 } // namespace lampire

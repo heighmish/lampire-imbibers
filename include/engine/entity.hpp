@@ -1,7 +1,8 @@
 #pragma once
 
+#include "collider_component.hpp"
 #include "entity_types.hpp"
-#include "shape.hpp"
+#include "renderable_component.hpp"
 #include "transform_component.hpp"
 #include "velocity_component.hpp"
 #include <cstddef>
@@ -15,7 +16,8 @@ public:
 
   std::unique_ptr<VelocityComponent> velocity;
   std::unique_ptr<TransformComponent> transform;
-  std::unique_ptr<Shape> shape;
+  std::unique_ptr<RenderableComponent> renderable;
+  std::unique_ptr<ColliderComponent> collider;
 
   bool is_alive = true;
 

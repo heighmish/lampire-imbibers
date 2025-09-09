@@ -1,3 +1,4 @@
+#include "../include/game/game.hpp"
 #include <raylib.h>
 
 int main() {
@@ -5,15 +6,18 @@ int main() {
   const int screenHeight = 600;
 
   InitWindow(screenWidth, screenHeight, "Lampire Imbibers");
+  SetTraceLogLevel(LOG_INFO);
 
   SetTargetFPS(60);
+  auto lampireGame = lampire::Game();
 
   while (!WindowShouldClose()) {
+    lampireGame.update();
+
     BeginDrawing();
-    ClearBackground(RAYWHITE);
-
-    DrawText("Hello, Raylib!", 190, 200, 20, LIGHTGRAY);
-
+    DrawFPS(0, 0);
+    ClearBackground(BLACK);
+    lampireGame.render();
     EndDrawing();
   }
 

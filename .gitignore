@@ -2,3 +2,7 @@
 **/obj/**
 Makefile
 *.make
+
+.cache/**
+
+compile_commands.json

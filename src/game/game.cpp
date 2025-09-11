@@ -25,10 +25,15 @@ Game::Game() {
 }
 
 void Game::update() {
+  auto ft = GetFrameTime();
   m_entityManager.update();
-  m_inputHandler.HandleInputs(m_entityManager);
+  m_inputHandler.HandleInputs(m_entityManager, ft);
   auto entities = m_entityManager.getEntities();
+  m_aiHandler.UpdateBehaviour(
+      m_entityManager.getEntities(engine::Player).front(),
+      m_entityManager.getEntities(engine::EntityType::Enemy));
   m_movementSystem.updatePosition(entities);
+  m_enemySpawner.spawnEnemy(m_entityManager, ft);
 }
 
 void Game::render() {

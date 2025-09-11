@@ -1,5 +1,5 @@
 #pragma once
 
 namespace engine {
-enum EntityType { Default, Player, Enemy };
+enum EntityType { Default, Player, Enemy, Bullet };
 }

@@ -15,9 +15,9 @@ int main() {
     lampireGame.update();
 
     BeginDrawing();
-    DrawFPS(0, 0);
     ClearBackground(BLACK);
     lampireGame.render();
+    DrawFPS(0, 0);
     EndDrawing();
   }
 

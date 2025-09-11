@@ -2,7 +2,9 @@
 
 #include "../engine/entity_manager.hpp"
 #include "../engine/renderer.hpp"
+#include "../game/ai_handler.hpp"
 #include "../game/input_handler.hpp"
+#include "enemy_spawner.hpp"
 #include "movement_handler.hpp"
 
 namespace lampire {
@@ -19,5 +21,7 @@ private:
   MovementHandler m_movementSystem;
   InputHandler m_inputHandler;
   engine::Renderer m_renderer;
+  EnemySpawner m_enemySpawner;
+  AiHandler m_aiHandler;
 };
 } // namespace lampire

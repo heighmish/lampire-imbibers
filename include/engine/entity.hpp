@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../game/ai_component.hpp"
 #include "collider_component.hpp"
 #include "entity_types.hpp"
 #include "renderable_component.hpp"
@@ -18,6 +19,7 @@ public:
   std::unique_ptr<TransformComponent> transform;
   std::unique_ptr<RenderableComponent> renderable;
   std::unique_ptr<ColliderComponent> collider;
+  std::unique_ptr<lampire::AiComponent> ai;
 
   bool is_alive = true;
 

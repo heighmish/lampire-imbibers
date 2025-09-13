@@ -33,6 +33,7 @@ void Game::update() {
       m_entityManager.getEntities(engine::Player).front(),
       m_entityManager.getEntities(engine::EntityType::Enemy));
   m_movementSystem.updatePosition(entities);
+  m_collisionHandler.HandleCollisions(entities);
   m_enemySpawner.spawnEnemy(m_entityManager, ft);
 }
 

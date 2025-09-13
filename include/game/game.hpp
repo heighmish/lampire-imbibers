@@ -4,6 +4,7 @@
 #include "../engine/renderer.hpp"
 #include "../game/ai_handler.hpp"
 #include "../game/input_handler.hpp"
+#include "collision_handler.hpp"
 #include "enemy_spawner.hpp"
 #include "movement_handler.hpp"
 
@@ -23,5 +24,6 @@ private:
   engine::Renderer m_renderer;
   EnemySpawner m_enemySpawner;
   AiHandler m_aiHandler;
+  CollisionHandler m_collisionHandler;
 };
 } // namespace lampire

@@ -14,6 +14,8 @@ class Entity {
 
 public:
   void destroy() { is_alive = false; }
+  bool operator==(const Entity &rhs) { return this->m_id == rhs.m_id; }
+  EntityType getType() const { return m_tag; }
 
   std::unique_ptr<VelocityComponent> velocity;
   std::unique_ptr<TransformComponent> transform;

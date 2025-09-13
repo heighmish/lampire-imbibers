@@ -1,4 +1,5 @@
 #include "../engine/entity.hpp"
+#include "raylib.h"
 #include <memory>
 #include <ranges>
 
@@ -7,21 +8,25 @@ class AiHandler {
 public:
   void UpdateBehaviour(std::shared_ptr<engine::Entity> const &player,
                        std::ranges::view auto aiEntities) {
+    auto playerShape = std::get<engine::Rect>(player->collider->shape);
     for (auto &entity : aiEntities) {
       if (entity->ai && entity->transform && entity->velocity) {
-        if (player->transform->position.x > entity->transform->position.x) {
-          entity->velocity->velocity.x = 1;
-        } else {
-          entity->velocity->velocity.x = -1;
-        }
+        auto playerCenter = player->transform->position.add(
+            engine::Vec2(playerShape.width / 2, playerShape.height / 2));
+        auto diffVec = playerCenter.subtract(entity->transform->position);
+        auto dist = diffVec.length();
 
-        if (player->transform->position.y > entity->transform->position.y) {
-          entity->velocity->velocity.y = 1;
+        auto moveSpeed = 1;
+        if (moveSpeed >= dist) {
+          entity->transform->position = playerCenter;
         } else {
-          entity->velocity->velocity.y = -1;
+          auto dir = diffVec.normalize();
+          auto step = dir.scale(moveSpeed);
+          entity->transform->position = entity->transform->position.add(step);
         }
       }
     }
+    TraceLog(LOG_DEBUG, "Finished ai handling");
   }
 };
 } // namespace lampire

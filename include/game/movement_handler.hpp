@@ -12,7 +12,8 @@ public:
   void updatePosition(engine::EntityVector &entities) {
     for (auto &entity : entities) {
       if (entity->transform && entity->velocity) {
-        entity->transform->position.add(entity->velocity->velocity);
+        entity->transform->position =
+            entity->transform->position.add(entity->velocity->velocity);
       }
 
       if (entity->transform && entity->collider) {
@@ -41,6 +42,7 @@ public:
         }
       }
     }
+    TraceLog(LOG_DEBUG, "Finished movement");
   }
 };
 } // namespace lampire

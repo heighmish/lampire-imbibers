@@ -35,6 +35,7 @@ void InputHandler::HandleInputs(engine::EntityManager &entityManager,
           std::make_unique<engine::TransformComponent>(mousePos.x, mousePos.y);
       bullet->renderable = std::make_unique<engine::RenderableComponent>(
           engine::Circle(15), RED);
+      TraceLog(LOG_INFO, "Finished handling mouse movement");
     }
   }
 }

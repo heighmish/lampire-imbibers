@@ -17,7 +17,7 @@ EntityVector &EntityManager::getEntities() { return m_entities; }
 std::shared_ptr<Entity> EntityManager::addEntity(EntityType type) {
   auto entity = std::shared_ptr<Entity>(new Entity(type, m_created_entities));
   ++m_created_entities;
-  m_entities_to_add.emplace_back(entity);
+  m_entities_to_add.push_back(entity);
   return entity;
 }
 } // namespace engine

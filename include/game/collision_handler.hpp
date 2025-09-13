@@ -11,10 +11,21 @@ class CollisionHandler {
 public:
   void HandleCollisions(engine::EntityVector &entities) {
     for (auto &outerEntity : entities) {
+      if (!outerEntity->collider) {
+        TraceLog(LOG_DEBUG, "Skipping entity as it has no collider");
+        continue;
+      }
+
       for (auto &innerEntity : entities) {
         if (outerEntity == innerEntity) {
           continue;
         }
+
+        if (!innerEntity->collider) {
+          TraceLog(LOG_DEBUG, "Skipping inner entity as it has no collider");
+          continue;
+        }
+
         if (outerEntity->getType() == engine::Player) {
           if (IsColliding(*innerEntity, *outerEntity)) {
             TraceLog(LOG_INFO, "Collision detected with player");

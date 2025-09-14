@@ -7,6 +7,7 @@
 namespace lampire {
 constexpr int PLAYER_MOVE_SPEED = 100;
 void InputHandler::HandleInputs(engine::EntityManager &entityManager,
+                                std::vector<ShootAction> &actions,
                                 float frametime) {
   auto players = entityManager.getEntities(engine::EntityType::Player);
   for (auto &player : players) {
@@ -29,18 +30,9 @@ void InputHandler::HandleInputs(engine::EntityManager &entityManager,
     }
 
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-      auto mousePos = GetMousePosition();
-      auto destPoint = engine::Vec2(mousePos.x, mousePos.y);
       auto spawnPoint = engine::Vec2(player->transform->position);
-      auto velocity = destPoint.direction(spawnPoint);
-      auto bullet = entityManager.addEntity(engine::EntityType::Bullet);
-      auto shape = engine::Circle(5);
-      bullet->transform = std::make_unique<engine::TransformComponent>(
-          spawnPoint.add(velocity.scale(50)));
-      bullet->renderable =
-          std::make_unique<engine::RenderableComponent>(shape, RED);
-      bullet->velocity = std::make_unique<engine::VelocityComponent>(velocity);
-      bullet->collider = std::make_unique<engine::ColliderComponent>(shape);
+      actions.push_back(
+          ShootAction(player, spawnPoint, engine::Vec2(GetMousePosition())));
       TraceLog(LOG_DEBUG, "Finished handling mouse movement");
     }
   }

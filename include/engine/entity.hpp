@@ -1,8 +1,10 @@
 #pragma once
 
 #include "../game/ai_component.hpp"
+#include "../game/weapon_component.hpp"
 #include "collider_component.hpp"
 #include "entity_types.hpp"
+#include "lifetime_component.hpp"
 #include "renderable_component.hpp"
 #include "transform_component.hpp"
 #include "velocity_component.hpp"
@@ -22,6 +24,8 @@ public:
   std::unique_ptr<RenderableComponent> renderable;
   std::unique_ptr<ColliderComponent> collider;
   std::unique_ptr<lampire::AiComponent> ai;
+  std::unique_ptr<lampire::WeaponComponent> weapon;
+  std::unique_ptr<LifetimeComponent> lifetime;
 
   bool is_alive = true;
 

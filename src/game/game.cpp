@@ -1,6 +1,7 @@
 #include "../../include/game/game.hpp"
 #include "../../include/engine/entity.hpp"
 #include "../../include/engine/entity_types.hpp"
+#include "../../include/engine/lifetime_handler.hpp"
 #include "../../include/engine/renderable_component.hpp"
 #include "../../include/engine/shapes.hpp"
 #include "../../include/engine/transform_component.hpp"
@@ -22,19 +23,25 @@ Game::Game() {
       GetScreenWidth() / 2, GetScreenHeight() / 2);
   player->velocity = std::make_unique<engine::VelocityComponent>(0, 0);
   player->collider = std::make_unique<engine::ColliderComponent>(rect);
+  player->weapon = std::make_unique<WeaponComponent>(0, 1, 1);
 }
 
 void Game::update() {
   auto ft = GetFrameTime();
   m_entityManager.update();
-  m_inputHandler.HandleInputs(m_entityManager, ft);
+
+  m_inputHandler.HandleInputs(m_entityManager, m_shootActions, ft);
   auto entities = m_entityManager.getEntities();
   m_aiHandler.UpdateBehaviour(
       m_entityManager.getEntities(engine::Player).front(),
       m_entityManager.getEntities(engine::EntityType::Enemy));
   m_movementSystem.updatePosition(entities);
   m_collisionHandler.HandleCollisions(entities);
+  m_weaponsHandler.HandleWeapons(m_entityManager, m_shootActions, ft);
+
+  m_lifetimeHandler.UpdateLifetimes(m_entityManager, ft);
   m_enemySpawner.spawnEnemy(m_entityManager, ft);
+  m_shootActions.clear();
 }
 
 void Game::render() {

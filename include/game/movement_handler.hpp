@@ -17,28 +17,31 @@ public:
       }
 
       if (entity->transform && entity->collider) {
-        if (auto const rect =
-                std::get_if<engine::Rect>(&entity->collider->shape)) {
-          entity->transform->position.x =
-              std::clamp(entity->transform->position.x, static_cast<float>(0),
-                         static_cast<float>(GetScreenWidth()) - rect->width);
+        if (entity->getType() == engine::Player) {
 
-          entity->transform->position.y =
-              std::clamp(entity->transform->position.y, static_cast<float>(0),
-                         static_cast<float>(GetScreenHeight()) - rect->height);
-        }
+          if (auto const rect =
+                  std::get_if<engine::Rect>(&entity->collider->shape)) {
+            entity->transform->position.x =
+                std::clamp(entity->transform->position.x, static_cast<float>(0),
+                           static_cast<float>(GetScreenWidth()) - rect->width);
 
-        if (auto const circle =
-                std::get_if<engine::Circle>(&entity->collider->shape)) {
-          entity->transform->position.x =
-              std::clamp(entity->transform->position.x,
-                         static_cast<float>(0) + circle->radius,
-                         static_cast<float>(GetScreenWidth()) - circle->radius);
+            entity->transform->position.y = std::clamp(
+                entity->transform->position.y, static_cast<float>(0),
+                static_cast<float>(GetScreenHeight()) - rect->height);
+          }
 
-          entity->transform->position.y = std::clamp(
-              entity->transform->position.y,
-              static_cast<float>(0) + circle->radius,
-              static_cast<float>(GetScreenHeight()) - circle->radius);
+          if (auto const circle =
+                  std::get_if<engine::Circle>(&entity->collider->shape)) {
+            entity->transform->position.x = std::clamp(
+                entity->transform->position.x,
+                static_cast<float>(0) + circle->radius,
+                static_cast<float>(GetScreenWidth()) - circle->radius);
+
+            entity->transform->position.y = std::clamp(
+                entity->transform->position.y,
+                static_cast<float>(0) + circle->radius,
+                static_cast<float>(GetScreenHeight()) - circle->radius);
+          }
         }
       }
     }

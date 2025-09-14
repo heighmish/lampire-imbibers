@@ -8,6 +8,7 @@ public:
   Vec2() = default;
   ~Vec2() = default;
   Vec2(float xIn, float yIn) : x(xIn), y(yIn) {};
+  Vec2(Vector2 raylibVec) : x(raylibVec.x), y(raylibVec.y) {}
 
   Vec2 add(Vec2 const &rhs) const {
     return Vec2(this->x + rhs.x, this->y + rhs.y);
@@ -40,7 +41,9 @@ public:
     return Vec2(this->x * scalar, this->y * scalar);
   }
 
-  Vec2 direction(Vec2 const &rhs) { return this->subtract(rhs).normalise(); }
+  Vec2 direction(Vec2 const &rhs) const {
+    return this->subtract(rhs).normalise();
+  }
 
   Vector2 asRaylibVec() const { return Vector2{.x = this->x, .y = this->y}; }
 

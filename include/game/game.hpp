@@ -1,12 +1,15 @@
 #pragma once
 
 #include "../engine/entity_manager.hpp"
+#include "../engine/lifetime_handler.hpp"
 #include "../engine/renderer.hpp"
 #include "../game/ai_handler.hpp"
 #include "../game/input_handler.hpp"
+#include "../game/weapons_handler.hpp"
 #include "collision_handler.hpp"
 #include "enemy_spawner.hpp"
 #include "movement_handler.hpp"
+#include <vector>
 
 namespace lampire {
 class Game {
@@ -25,5 +28,9 @@ private:
   EnemySpawner m_enemySpawner;
   AiHandler m_aiHandler;
   CollisionHandler m_collisionHandler;
+  WeaponsHandler m_weaponsHandler;
+  engine::LifetimeHandler m_lifetimeHandler;
+
+  std::vector<ShootAction> m_shootActions;
 };
 } // namespace lampire

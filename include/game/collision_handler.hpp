@@ -4,6 +4,7 @@
 #include "../engine/entity_manager.hpp"
 #include "../engine/shapes.hpp"
 #include "raylib.h"
+#include "raymath.h"
 #include <variant>
 
 namespace lampire {
@@ -11,8 +12,7 @@ class CollisionHandler {
 public:
   void HandleCollisions(engine::EntityVector &entities) {
     for (auto &outerEntity : entities) {
-      if (!outerEntity->collider) {
-        TraceLog(LOG_DEBUG, "Skipping entity as it has no collider");
+      if (!(outerEntity->collider && outerEntity->transform)) {
         continue;
       }
 
@@ -21,14 +21,29 @@ public:
           continue;
         }
 
-        if (!innerEntity->collider) {
-          TraceLog(LOG_DEBUG, "Skipping inner entity as it has no collider");
+        if (!(innerEntity->collider && innerEntity->transform)) {
           continue;
         }
 
-        if (outerEntity->getType() == engine::Player) {
-          if (IsColliding(*innerEntity, *outerEntity)) {
-            TraceLog(LOG_INFO, "Collision detected with player");
+        if (IsColliding(*innerEntity, *outerEntity)) {
+          if (outerEntity->getType() == engine::Enemy &&
+              innerEntity->getType() == engine::Enemy) {
+            auto distance = outerEntity->transform->position.direction(
+                innerEntity->transform->position);
+            outerEntity->transform->position =
+                outerEntity->transform->position.add(distance);
+          }
+
+          if (outerEntity->getType() == engine::Bullet &&
+              innerEntity->getType() == engine::Enemy) {
+            // Todo: health and bullet damage system
+            innerEntity->destroy();
+            outerEntity->destroy();
+          }
+
+          if (outerEntity->getType() == engine::Player &&
+              innerEntity->getType() == engine::Enemy) {
+            // Todo: player health and game over screen
             innerEntity->destroy();
           }
         }
@@ -79,13 +94,32 @@ private:
   bool checkCollision(const engine::Circle &circleLeft,
                       const engine::TransformComponent &circleLeftTransform,
                       const engine::Circle &circleRight,
-                      const engine::TransformComponent &circleRightTransform) {}
+                      const engine::TransformComponent &circleRightTransform) {
+    return CheckCollisionCircles(
+        Vector2AddValue(circleLeftTransform.position.asRaylibVec(),
+                        circleLeft.radius),
+        circleLeft.radius,
+        Vector2AddValue(circleRightTransform.position.asRaylibVec(),
+                        circleRight.radius),
+        circleRight.radius);
+  }
 
   bool
   checkCollision(const engine::Rect &rectangleLeft,
                  const engine::TransformComponent &rectangleLeftTransform,
                  const engine::Rect &rectangleRight,
-                 const engine::TransformComponent &rectangleRightTransform) {}
+                 const engine::TransformComponent &rectangleRightTransform) {
+    return CheckCollisionRecs(Rectangle{.x = rectangleLeftTransform.position.x,
+                                        .y = rectangleLeftTransform.position.y,
+                                        .width = rectangleLeft.width,
+                                        .height = rectangleLeft.height},
+                              Rectangle{.x = rectangleRightTransform.position.x,
+                                        .y = rectangleRightTransform.position.y,
+                                        .width = rectangleRight.width,
+                                        .height = rectangleRight.height}
+
+    );
+  }
 };
 
 } // namespace lampire

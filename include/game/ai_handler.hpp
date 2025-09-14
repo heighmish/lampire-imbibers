@@ -20,7 +20,7 @@ public:
         if (moveSpeed >= dist) {
           entity->transform->position = playerCenter;
         } else {
-          auto dir = diffVec.normalize();
+          auto dir = diffVec.normalise();
           auto step = dir.scale(moveSpeed);
           entity->transform->position = entity->transform->position.add(step);
         }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "raylib.h"
 #include <cmath>
 namespace engine {
 class Vec2 {
@@ -12,6 +13,8 @@ public:
     return Vec2(this->x + rhs.x, this->y + rhs.y);
   }
 
+  Vec2 addValue(float value) { return Vec2(this->x + value, this->y + value); }
+
   Vec2 subtract(Vec2 const &rhs) const {
     return Vec2(this->x - rhs.x, this->y - rhs.y);
   }
@@ -20,18 +23,26 @@ public:
     return std::sqrt(this->x * this->x + this->y * this->y);
   }
 
-  Vec2 normalize() const {
+  Vec2 divide(float scalar) const {
+    return Vec2(this->x / scalar, this->y / scalar);
+  }
+
+  Vec2 normalise() const {
     auto len = this->length();
     if (len <= 1e-6f) {
       return Vec2(0, 0);
     }
 
-    return Vec2(this->x / len, this->y / len);
+    return this->divide(len);
   }
 
   Vec2 scale(float scalar) const {
     return Vec2(this->x * scalar, this->y * scalar);
   }
+
+  Vec2 direction(Vec2 const &rhs) { return this->subtract(rhs).normalise(); }
+
+  Vector2 asRaylibVec() const { return Vector2{.x = this->x, .y = this->y}; }
 
   float x, y;
 };

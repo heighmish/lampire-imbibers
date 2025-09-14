@@ -36,6 +36,6 @@ public:
 
 private:
   float m_timeSinceLastSpawn;
-  static constexpr float m_spawnTime = 5;
+  static constexpr float m_spawnTime = 1;
 };
 } // namespace lampire

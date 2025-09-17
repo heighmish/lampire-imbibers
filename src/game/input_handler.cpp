@@ -8,7 +8,16 @@ namespace lampire {
 constexpr int PLAYER_MOVE_SPEED = 100;
 void InputHandler::HandleInputs(engine::EntityManager &entityManager,
                                 std::vector<ShootAction> &actions,
-                                float frametime) {
+                                float frametime, bool &paused) {
+
+  if (IsKeyPressed(KEY_P)) {
+    paused = !paused;
+  }
+
+  if (paused) {
+    return;
+  }
+
   auto players = entityManager.getEntities(engine::EntityType::Player);
   for (auto &player : players) {
     player->velocity->velocity.x = 0;

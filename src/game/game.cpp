@@ -30,23 +30,29 @@ void Game::update() {
   auto ft = GetFrameTime();
   m_entityManager.update();
 
-  m_inputHandler.HandleInputs(m_entityManager, m_shootActions, ft);
-  auto entities = m_entityManager.getEntities();
-  m_aiHandler.UpdateBehaviour(
-      m_entityManager.getEntities(engine::Player).front(),
-      m_entityManager.getEntities(engine::EntityType::Enemy));
-  m_movementSystem.updatePosition(entities);
-  m_collisionHandler.HandleCollisions(entities);
-  m_weaponsHandler.HandleWeapons(m_entityManager, m_shootActions, ft);
+  m_inputHandler.HandleInputs(m_entityManager, m_shootActions, ft, m_isPaused);
 
-  m_lifetimeHandler.UpdateLifetimes(m_entityManager, ft);
-  m_enemySpawner.spawnEnemy(m_entityManager, ft);
-  m_shootActions.clear();
+  if (!m_isPaused) {
+    auto entities = m_entityManager.getEntities();
+    m_aiHandler.UpdateBehaviour(
+        m_entityManager.getEntities(engine::Player).front(),
+        m_entityManager.getEntities(engine::EntityType::Enemy));
+    m_movementSystem.updatePosition(entities);
+    m_collisionHandler.HandleCollisions(entities);
+    m_weaponsHandler.HandleWeapons(m_entityManager, m_shootActions, ft);
+
+    m_lifetimeHandler.UpdateLifetimes(m_entityManager, ft);
+    m_enemySpawner.spawnEnemy(m_entityManager, ft);
+    m_shootActions.clear();
+  }
 }
 
 void Game::render() {
   auto entities = m_entityManager.getEntities();
   m_renderer.renderEntities(entities);
+  if (m_isPaused) {
+    m_renderer.drawPauseScreen();
+  }
 }
 void Game::shutdown() {}
 } // namespace lampire

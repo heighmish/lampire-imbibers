@@ -8,6 +8,7 @@ namespace lampire {
 class InputHandler {
 public:
   void HandleInputs(engine::EntityManager &entityManager,
-                    std::vector<ShootAction> &actions, float frametime);
+                    std::vector<ShootAction> &actions, float frametime,
+                    bool &paused);
 };
 } // namespace lampire

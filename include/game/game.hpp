@@ -32,5 +32,7 @@ private:
   engine::LifetimeHandler m_lifetimeHandler;
 
   std::vector<ShootAction> m_shootActions;
+
+  bool m_isPaused = false;
 };
 } // namespace lampire

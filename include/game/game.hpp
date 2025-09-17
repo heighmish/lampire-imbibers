@@ -5,10 +5,10 @@
 #include "../engine/renderer.hpp"
 #include "../game/ai_handler.hpp"
 #include "../game/input_handler.hpp"
-#include "../game/weapons_handler.hpp"
 #include "collision_handler.hpp"
 #include "enemy_spawner.hpp"
 #include "movement_handler.hpp"
+#include "weapons_handler.hpp"
 #include <vector>
 
 namespace lampire {

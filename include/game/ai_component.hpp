@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../engine/component.hpp"
 
 namespace lampire {

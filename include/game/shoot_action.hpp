@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../engine/action.hpp"
 #include "../engine/entity.hpp"
 #include "../engine/vec2.hpp"

@@ -1,3 +1,4 @@
+#pragma once
 #include "entity_manager.hpp"
 #include "raylib.h"
 #include "renderable_component.hpp"

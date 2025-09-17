@@ -1,4 +1,9 @@
-#include "input_handler.hpp"
+#pragma once
+
+#include "../engine/entity_manager.hpp"
+#include "raylib.h"
+#include "shoot_action.hpp"
+
 namespace lampire {
 class WeaponsHandler {
 public:
@@ -31,17 +36,23 @@ private:
                   const ShootAction &act) {
     // Todo: bullet spawn position is entity pos top left, need to center
     // before scaling against velocity
-    TraceLog(LOG_INFO, "Making bullet");
-    auto velocity = act.dest.direction(act.source);
+    auto sourceCenter =
+        act.source.add(engine::getCenter(act.srcEntity->renderable->shape));
+    auto velocity = act.dest.direction(sourceCenter);
     auto bullet = entityManager.addEntity(engine::EntityType::Bullet);
     auto shape = engine::Circle(5);
     bullet->transform = std::make_unique<engine::TransformComponent>(
-        act.source.add(velocity.scale(25)));
+        sourceCenter.add(velocity.scale(25)));
     bullet->renderable =
         std::make_unique<engine::RenderableComponent>(shape, RED);
     bullet->velocity = std::make_unique<engine::VelocityComponent>(velocity);
     bullet->collider = std::make_unique<engine::ColliderComponent>(shape);
     bullet->lifetime = std::make_unique<engine::LifetimeComponent>(3);
+    TraceLog(LOG_INFO,
+             "Spawning bullet: src(%f, %f), transformedSrc(%f, %f), final "
+             "spawn(%f, %f)",
+             act.source.x, act.source.y, sourceCenter.x, sourceCenter.y,
+             bullet->transform->position.x, bullet->transform->position.y);
   }
 };
 } // namespace lampire

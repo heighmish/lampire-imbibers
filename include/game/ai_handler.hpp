@@ -1,5 +1,8 @@
 #pragma once
 #include "../engine/entity.hpp"
+#include "engine/collider_component.hpp"
+#include "engine/shapes.hpp"
+#include "engine/transform_component.hpp"
 #include "raylib.h"
 #include <memory>
 #include <ranges>

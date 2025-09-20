@@ -1,5 +1,5 @@
-#include "../../include/engine/entity_manager.hpp"
-#include "../../include/engine/entity.hpp"
+#include "engine/entity_manager.hpp"
+#include "engine/entity.hpp"
 #include <memory>
 #include <vector>
 

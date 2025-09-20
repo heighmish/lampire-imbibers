@@ -12,7 +12,7 @@ targetdir "bin/%{cfg.buildcfg}"
 files { "include/**.hpp", "src/**.cpp" }
 
 -- Include Raylib installed via Homebrew
-includedirs { "/usr/local/include", "/opt/homebrew/include" }
+includedirs { "include", "/usr/local/include", "/opt/homebrew/include" }
 libdirs { "/usr/local/lib", "/opt/homebrew/lib" }
 
 links { "raylib", "m", "pthread", "c++" }

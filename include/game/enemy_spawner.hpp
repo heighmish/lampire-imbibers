@@ -1,8 +1,13 @@
 #pragma once
 
-#include "../engine/entity_manager.hpp"
-#include "../engine/entity_types.hpp"
-#include "../engine/random_generator.hpp"
+#include "engine/collider_component.hpp"
+#include "engine/entity_manager.hpp"
+#include "engine/random_generator.hpp"
+#include "engine/renderable_component.hpp"
+#include "engine/shapes.hpp"
+#include "engine/transform_component.hpp"
+#include "engine/velocity_component.hpp"
+#include "game/ai_component.hpp"
 #include "raylib.h"
 #include <cstdlib>
 #include <ctime>

@@ -1,6 +1,9 @@
-#include "../../include/game/input_handler.hpp"
-#include "../../include/engine/entity_manager.hpp"
-#include "../../include/engine/entity_types.hpp"
+#include "game/input_handler.hpp"
+#include "engine/entity.hpp"
+#include "engine/entity_manager.hpp"
+#include "engine/entity_types.hpp"
+#include "engine/transform_component.hpp"
+#include "engine/velocity_component.hpp"
 #include "raylib.h"
 #include <memory>
 

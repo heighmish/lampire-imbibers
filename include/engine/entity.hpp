@@ -1,15 +1,29 @@
 #pragma once
 
-#include "../game/ai_component.hpp"
-#include "../game/weapon_component.hpp"
-#include "collider_component.hpp"
-#include "entity_types.hpp"
-#include "lifetime_component.hpp"
-#include "renderable_component.hpp"
-#include "transform_component.hpp"
-#include "velocity_component.hpp"
+#include "engine/collider_component.hpp"
+#include "engine/lifetime_component.hpp"
+#include "engine/renderable_component.hpp"
+#include "engine/transform_component.hpp"
+#include "engine/velocity_component.hpp"
+#include "entity_types.hpp" // This is an enum, so it's fine to include.
+#include "game/ai_component.hpp"
+#include "game/weapon_component.hpp"
 #include <cstddef>
 #include <memory>
+
+// Forward declarations for all component types
+namespace engine {
+class VelocityComponent;
+class TransformComponent;
+class RenderableComponent;
+class ColliderComponent;
+class LifetimeComponent;
+} // namespace engine
+
+namespace lampire {
+class AiComponent;
+class WeaponComponent;
+} // namespace lampire
 
 namespace engine {
 class Entity {

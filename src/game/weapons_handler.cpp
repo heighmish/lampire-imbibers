@@ -37,14 +37,15 @@ void makeBullet(engine::EntityManager &entityManager,
 namespace lampire {
 
 void WeaponsHandler::HandleWeapons(engine::EntityManager &entityManager,
-                                   std::vector<ShootAction> actions, float ft) {
+                                   std::vector<ShootAction> actions,
+                                   double dt) {
   auto entities = entityManager.getEntities();
   for (auto &entity : entities) {
     if (entity->weapon) {
       TraceLog(LOG_DEBUG,
                "Subtracting cooldown for weapon: FrameTime %f, current_cd: %f",
-               ft, entity->weapon->current_cd);
-      entity->weapon->current_cd -= ft;
+               dt, entity->weapon->current_cd);
+      entity->weapon->current_cd -= dt;
     }
   }
 

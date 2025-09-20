@@ -8,10 +8,10 @@
 #include <memory>
 
 namespace lampire {
-constexpr int PLAYER_MOVE_SPEED = 100;
+constexpr int PLAYER_MOVE_SPEED = 5000;
 void InputHandler::HandleInputs(engine::EntityManager &entityManager,
-                                std::vector<ShootAction> &actions,
-                                float frametime, bool &paused) {
+                                std::vector<ShootAction> &actions, double dt,
+                                bool &paused) {
 
   if (IsKeyPressed(KEY_P)) {
     paused = !paused;
@@ -26,19 +26,19 @@ void InputHandler::HandleInputs(engine::EntityManager &entityManager,
     player->velocity->velocity.x = 0;
     player->velocity->velocity.y = 0;
     if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S)) {
-      player->velocity->velocity.y = PLAYER_MOVE_SPEED * frametime;
+      player->velocity->velocity.y = PLAYER_MOVE_SPEED * dt;
     }
 
     if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) {
-      player->velocity->velocity.y = -PLAYER_MOVE_SPEED * frametime;
+      player->velocity->velocity.y = -PLAYER_MOVE_SPEED * dt;
     }
 
     if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)) {
-      player->velocity->velocity.x = -PLAYER_MOVE_SPEED * frametime;
+      player->velocity->velocity.x = -PLAYER_MOVE_SPEED * dt;
     }
 
     if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) {
-      player->velocity->velocity.x = PLAYER_MOVE_SPEED * frametime;
+      player->velocity->velocity.x = PLAYER_MOVE_SPEED * dt;
     }
 
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {

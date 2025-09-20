@@ -8,11 +8,18 @@ int main() {
   InitWindow(screenWidth, screenHeight, "Lampire Imbibers");
   SetTraceLogLevel(LOG_INFO);
 
-  SetTargetFPS(60);
   auto lampireGame = lampire::Game();
 
+  const double dt = 1.0 / 60.0;
+  double accumulator = 0.0;
+
   while (!WindowShouldClose()) {
-    lampireGame.update();
+    accumulator += GetFrameTime();
+
+    while (accumulator >= dt) {
+      lampireGame.update(dt);
+      accumulator -= dt;
+    }
 
     BeginDrawing();
     ClearBackground(BLACK);

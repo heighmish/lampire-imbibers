@@ -3,11 +3,11 @@
 #include "engine/entity_manager.hpp"
 
 namespace engine {
-void LifetimeHandler::UpdateLifetimes(EntityManager &entityManager, float ft) {
+void LifetimeHandler::UpdateLifetimes(EntityManager &entityManager, double dt) {
   auto entities = entityManager.getEntities();
   for (auto &entity : entities) {
     if (entity->lifetime) {
-      entity->lifetime->ttl -= ft;
+      entity->lifetime->ttl -= dt;
       if (entity->lifetime->ttl <= 0) {
         entity->destroy();
       }

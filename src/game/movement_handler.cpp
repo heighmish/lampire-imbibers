@@ -8,11 +8,12 @@
 
 namespace lampire {
 
-void MovementHandler::updatePosition(engine::EntityVector &entities) {
+void MovementHandler::updatePosition(engine::EntityVector &entities,
+                                     double dt) {
   for (auto &entity : entities) {
     if (entity->transform && entity->velocity) {
       entity->transform->position =
-          entity->transform->position.add(entity->velocity->velocity);
+          entity->transform->position.add(entity->velocity->velocity.scale(dt));
     }
 
     if (entity->transform && entity->collider) {
@@ -20,13 +21,13 @@ void MovementHandler::updatePosition(engine::EntityVector &entities) {
 
         if (auto const rect =
                 std::get_if<engine::Rect>(&entity->collider->shape)) {
-          entity->transform->position.x = std::clamp(
-              entity->transform->position.x, static_cast<float>(0),
-              static_cast<float>(GetScreenWidth()) - rect->width);
+          entity->transform->position.x =
+              std::clamp(entity->transform->position.x, static_cast<float>(0),
+                         static_cast<float>(GetScreenWidth()) - rect->width);
 
-          entity->transform->position.y = std::clamp(
-              entity->transform->position.y, static_cast<float>(0),
-              static_cast<float>(GetScreenHeight()) - rect->height);
+          entity->transform->position.y =
+              std::clamp(entity->transform->position.y, static_cast<float>(0),
+                         static_cast<float>(GetScreenHeight()) - rect->height);
         }
 
         if (auto const circle =

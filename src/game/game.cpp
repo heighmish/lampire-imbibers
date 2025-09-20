@@ -28,23 +28,22 @@ Game::Game() {
   player->weapon = std::make_unique<WeaponComponent>(0, 1, 1);
 }
 
-void Game::update() {
-  auto ft = GetFrameTime();
+void Game::update(double dt) {
   m_entityManager.update();
 
-  m_inputHandler.HandleInputs(m_entityManager, m_shootActions, ft, m_isPaused);
+  m_inputHandler.HandleInputs(m_entityManager, m_shootActions, dt, m_isPaused);
 
   if (!m_isPaused) {
     auto entities = m_entityManager.getEntities();
     m_aiHandler.UpdateBehaviour(
         m_entityManager.getEntities(engine::Player).front(),
-        m_entityManager.getEntities(engine::EntityType::Enemy));
-    m_movementSystem.updatePosition(entities);
+        m_entityManager.getEntities(engine::EntityType::Enemy), dt);
+    m_movementSystem.updatePosition(entities, dt);
     m_collisionHandler.HandleCollisions(entities);
-    m_weaponsHandler.HandleWeapons(m_entityManager, m_shootActions, ft);
+    m_weaponsHandler.HandleWeapons(m_entityManager, m_shootActions, dt);
 
-    m_lifetimeHandler.UpdateLifetimes(m_entityManager, ft);
-    m_enemySpawner.spawnEnemy(m_entityManager, ft);
+    m_lifetimeHandler.UpdateLifetimes(m_entityManager, dt);
+    m_enemySpawner.spawnEnemy(m_entityManager, dt);
     m_shootActions.clear();
   }
 }

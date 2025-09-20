@@ -57,7 +57,8 @@ private:
 
   void drawCircle(const Circle &c, const TransformComponent &transform,
                   Color colour) {
-    DrawCircle(transform.position.x, transform.position.y, c.radius, colour);
+    DrawCircle(transform.position.x + c.radius, transform.position.y + c.radius,
+               c.radius, colour);
   }
 };
 } // namespace engine

@@ -34,8 +34,6 @@ public:
 private:
   void makeBullet(engine::EntityManager &entityManager,
                   const ShootAction &act) {
-    // Todo: bullet spawn position is entity pos top left, need to center
-    // before scaling against velocity
     auto sourceCenter =
         act.source.add(engine::getCenter(act.srcEntity->renderable->shape));
     auto velocity = act.dest.direction(sourceCenter);

@@ -5,6 +5,6 @@ class EntityManager;
 
 class LifetimeHandler {
 public:
-  void UpdateLifetimes(EntityManager &entityManager, float ft);
+  void UpdateLifetimes(EntityManager &entityManager, double dt);
 };
 } // namespace engine

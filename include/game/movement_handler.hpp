@@ -5,6 +5,6 @@
 namespace lampire {
 class MovementHandler {
 public:
-  void updatePosition(engine::EntityVector &entities);
+  void updatePosition(engine::EntityVector &entities, double dt);
 };
 } // namespace lampire

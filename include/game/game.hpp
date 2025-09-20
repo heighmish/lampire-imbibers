@@ -16,7 +16,7 @@ class Game {
 public:
   Game();
   ~Game() = default;
-  void update();
+  void update(double dt);
   void render();
   void shutdown();
 

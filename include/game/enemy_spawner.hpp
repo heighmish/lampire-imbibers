@@ -16,9 +16,9 @@
 namespace lampire {
 class EnemySpawner {
 public:
-  void spawnEnemy(engine::EntityManager &entityManager, float frametime) {
+  void spawnEnemy(engine::EntityManager &entityManager, float dt) {
     if (m_timeSinceLastSpawn >= 0) {
-      m_timeSinceLastSpawn -= frametime;
+      m_timeSinceLastSpawn -= dt;
       return;
     }
 

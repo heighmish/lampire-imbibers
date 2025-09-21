@@ -1,8 +1,10 @@
 #include "engine/renderer.hpp"
 
+#include <format>
 #include <variant>
 
 #include "engine/entity_manager.hpp"
+#include "engine/entity_types.hpp"
 #include "engine/renderable_component.hpp"
 #include "engine/shapes.hpp"
 #include "engine/transform_component.hpp"
@@ -14,6 +16,12 @@ void Renderer::renderEntities(EntityVector& entities) {
     for (auto const& entity : entities) {
         if (entity->renderable && entity->transform) {
             drawShape(*entity->renderable, *entity->transform);
+        }
+
+        if (entity->getType() == engine::Player) {
+            DrawText(std::format("Health: {}", entity->health->currentHealth)
+                         .c_str(),
+                     0, GetScreenHeight() - 50, 30, WHITE);
         }
     }
 }

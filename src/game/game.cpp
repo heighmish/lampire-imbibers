@@ -48,6 +48,7 @@ void Game::update(double dt) {
         m_movementSystem.updatePosition(entities, dt);
         m_collisionHandler.handleCollisions(entities, m_eventBus);
         m_weaponsHandler.handleWeapons(m_entityManager, dt);
+        m_damageHandler.updateTimers(m_entityManager, dt);
 
         m_lifetimeHandler.UpdateLifetimes(m_entityManager, dt);
         m_enemySpawner.spawnEnemy(m_entityManager, dt);

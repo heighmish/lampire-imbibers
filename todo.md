@@ -3,7 +3,7 @@ Todo:
 * Enemies drop xp
 * Leveling system -> pick between 3 things
 * Score
-* Proper HP and damage
+* Proper HP and damage - The systems are there I guess
 * Player can die/restart
 * Enemies dont spawn next to player
 

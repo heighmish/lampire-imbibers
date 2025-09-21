@@ -11,8 +11,8 @@ namespace lampire {
 struct ShootAction;
 
 class WeaponsHandler {
-public:
-  void HandleWeapons(engine::EntityManager &entityManager,
-                     std::vector<ShootAction> actions, double dt);
+   public:
+    void HandleWeapons(engine::EntityManager& entityManager,
+                       std::vector<ShootAction> actions, double dt);
 };
-} // namespace lampire
+}  // namespace lampire

@@ -2,7 +2,7 @@
 #include "shapes.hpp"
 namespace engine {
 class ColliderComponent {
-public:
-  Shape shape;
+   public:
+    Shape shape;
 };
-} // namespace engine
+}  // namespace engine

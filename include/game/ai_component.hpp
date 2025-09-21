@@ -4,4 +4,4 @@
 
 namespace lampire {
 class AiComponent : engine::Component {};
-} // namespace lampire
+}  // namespace lampire

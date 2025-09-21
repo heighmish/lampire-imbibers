@@ -3,9 +3,11 @@
 #include <cstddef>
 #include <memory>
 
+#include "engine/action.hpp"
 #include "engine/collider_component.hpp"
 #include "engine/entity.hpp"
 #include "engine/entity_types.hpp"
+#include "engine/event_bus.hpp"
 #include "engine/lifetime_handler.hpp"
 #include "engine/renderable_component.hpp"
 #include "engine/shapes.hpp"
@@ -29,10 +31,14 @@ Game::Game() {
     player->velocity = std::make_unique<engine::VelocityComponent>(0, 0);
     player->collider = std::make_unique<engine::ColliderComponent>(rect);
     player->weapon = std::make_unique<WeaponComponent>(0, 1, 1, 50);
-    player->health = std::make_unique<HealthComponent>(100.0);
+    player->health = std::make_unique<HealthComponent>(10.0);
 
     m_weaponsHandler.registerEvents(m_eventBus, m_entityManager);
     m_damageHandler.registerHandlers(m_eventBus);
+
+    m_eventBus.subscribe("gameOver", [this](std::unique_ptr<engine::Action>) {
+        m_isGameOver = true;
+    });
 }
 
 void Game::update(double dt) {
@@ -40,7 +46,7 @@ void Game::update(double dt) {
 
     m_inputHandler.handleInputs(m_entityManager, m_eventBus, dt, m_isPaused);
 
-    if (!m_isPaused) {
+    if (!m_isPaused && !m_isGameOver) {
         auto entities = m_entityManager.getEntities();
         m_aiHandler.UpdateBehaviour(
             m_entityManager.getEntities(engine::Player).front(),
@@ -59,7 +65,9 @@ void Game::update(double dt) {
 void Game::render() {
     auto entities = m_entityManager.getEntities();
     m_renderer.renderEntities(entities);
-    if (m_isPaused) {
+    if (m_isGameOver) {
+        m_renderer.drawGameOverScreen();
+    } else if (m_isPaused) {
         m_renderer.drawPauseScreen();
     }
 }

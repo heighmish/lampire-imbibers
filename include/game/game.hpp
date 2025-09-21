@@ -35,5 +35,6 @@ class Game {
     DamageHandler m_damageHandler;
 
     bool m_isPaused = false;
+    bool m_isGameOver = false;
 };
 }  // namespace lampire

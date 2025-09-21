@@ -15,6 +15,7 @@ class Renderer {
    public:
     void renderEntities(EntityVector& entities);
     void drawPauseScreen();
+    void drawGameOverScreen();
     int centerTextX(const char* text, int fontSize, int x);
 
    private:

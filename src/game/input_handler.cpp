@@ -17,7 +17,7 @@ constexpr int PLAYER_MOVE_SPEED = 5000;
 void InputHandler::handleInputs(engine::EntityManager& entityManager,
                                 engine::EventBus& eventBus, double dt,
                                 bool& paused) {
-    if (IsKeyPressed(KEY_P)) {
+    if (IsKeyDown(KEY_P)) {
         paused = !paused;
     }
 

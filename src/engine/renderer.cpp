@@ -26,6 +26,13 @@ void Renderer::renderEntities(EntityVector& entities) {
     }
 }
 
+void Renderer::drawGameOverScreen() {
+    auto heading = "GAME OVER";
+    auto fontSize = 40;
+    auto centerX = centerTextX(heading, fontSize, GetScreenWidth() / 2);
+    DrawText(heading, centerX, GetScreenHeight() / 2, fontSize, WHITE);
+}
+
 void Renderer::drawPauseScreen() {
     auto heading = "Game is paused";
     auto fontSize = 40;

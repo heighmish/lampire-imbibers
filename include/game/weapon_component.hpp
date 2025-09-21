@@ -4,10 +4,11 @@
 namespace lampire {
 class WeaponComponent : public engine::Component {
 public:
-  float current_cd;
+  float currentCd;
   float fireRate;
   float damage;
-  WeaponComponent(float cd, float fr, float damage)
-      : current_cd(cd), fireRate(fr), damage(damage) {}
+  float projectileSpeed;
+  WeaponComponent(float cd, float fr, float damage, float speed)
+      : currentCd(cd), fireRate(fr), damage(damage), projectileSpeed(speed) {}
 };
 } // namespace lampire

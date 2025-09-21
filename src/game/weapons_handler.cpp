@@ -3,17 +3,22 @@
 #include "engine/collider_component.hpp"
 #include "engine/entity.hpp"
 #include "engine/entity_manager.hpp"
+#include "engine/entity_types.hpp"
 #include "engine/lifetime_component.hpp"
 #include "engine/renderable_component.hpp"
 #include "engine/shapes.hpp"
 #include "engine/transform_component.hpp"
 #include "engine/velocity_component.hpp"
 #include "game/shoot_action.hpp"
+#include "game/weapon_component.hpp"
 #include "raylib.h"
+#include <memory>
+#include <vector>
 
 namespace {
 void makeBullet(engine::EntityManager &entityManager,
-                const lampire::ShootAction &act) {
+                const lampire::ShootAction &act,
+                const lampire::WeaponComponent &weapon) {
   auto sourceCenter =
       act.source.add(engine::getCenter(act.srcEntity->renderable->shape));
   auto velocity = act.dest.direction(sourceCenter);
@@ -23,7 +28,8 @@ void makeBullet(engine::EntityManager &entityManager,
       sourceCenter.add(velocity.scale(25)));
   bullet->renderable =
       std::make_unique<engine::RenderableComponent>(shape, RED);
-  bullet->velocity = std::make_unique<engine::VelocityComponent>(velocity);
+  bullet->velocity = std::make_unique<engine::VelocityComponent>(
+      velocity.scale(weapon.projectileSpeed));
   bullet->collider = std::make_unique<engine::ColliderComponent>(shape);
   bullet->lifetime = std::make_unique<engine::LifetimeComponent>(3);
   TraceLog(LOG_INFO,
@@ -44,17 +50,17 @@ void WeaponsHandler::HandleWeapons(engine::EntityManager &entityManager,
     if (entity->weapon) {
       TraceLog(LOG_DEBUG,
                "Subtracting cooldown for weapon: FrameTime %f, current_cd: %f",
-               dt, entity->weapon->current_cd);
-      entity->weapon->current_cd -= dt;
+               dt, entity->weapon->currentCd);
+      entity->weapon->currentCd -= dt;
     }
   }
 
   for (auto &action : actions) {
     if (action.srcEntity->weapon) {
-      if (action.srcEntity->weapon->current_cd <= 0) {
-        makeBullet(entityManager, action);
-        action.srcEntity->weapon->current_cd =
-            action.srcEntity->weapon->fireRate;
+      auto &weapon = *action.srcEntity->weapon;
+      if (weapon.currentCd <= 0) {
+        makeBullet(entityManager, action, weapon);
+        weapon.currentCd = weapon.fireRate;
       }
     }
   }

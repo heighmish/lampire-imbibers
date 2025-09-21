@@ -1,6 +1,8 @@
 #include "game/movement_handler.hpp"
 
 #include "engine/entity.hpp"
+#include "engine/entity_manager.hpp"
+#include "engine/entity_types.hpp"
 #include "engine/shapes.hpp"
 #include "raylib.h"
 #include <algorithm>

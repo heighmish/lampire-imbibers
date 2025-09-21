@@ -25,7 +25,7 @@ Game::Game() {
       GetScreenWidth() / 2, GetScreenHeight() / 2);
   player->velocity = std::make_unique<engine::VelocityComponent>(0, 0);
   player->collider = std::make_unique<engine::ColliderComponent>(rect);
-  player->weapon = std::make_unique<WeaponComponent>(0, 1, 1);
+  player->weapon = std::make_unique<WeaponComponent>(0, 1, 1, 50);
 }
 
 void Game::update(double dt) {
@@ -37,7 +37,7 @@ void Game::update(double dt) {
     auto entities = m_entityManager.getEntities();
     m_aiHandler.UpdateBehaviour(
         m_entityManager.getEntities(engine::Player).front(),
-        m_entityManager.getEntities(engine::EntityType::Enemy), dt);
+        m_entityManager.getEntities(engine::EntityType::Enemy));
     m_movementSystem.updatePosition(entities, dt);
     m_collisionHandler.HandleCollisions(entities);
     m_weaponsHandler.HandleWeapons(m_entityManager, m_shootActions, dt);

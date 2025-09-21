@@ -3,7 +3,6 @@
 #include <cstddef>
 #include <memory>
 
-#include "engine/action.hpp"
 #include "engine/collider_component.hpp"
 #include "engine/entity.hpp"
 #include "engine/entity_types.hpp"
@@ -13,6 +12,7 @@
 #include "engine/shapes.hpp"
 #include "engine/transform_component.hpp"
 #include "engine/velocity_component.hpp"
+#include "game/game_over_event.hpp"
 #include "game/health_component.hpp"
 #include "game/weapon_component.hpp"
 #include "raylib.h"
@@ -36,9 +36,8 @@ Game::Game() {
     m_weaponsHandler.registerEvents(m_eventBus, m_entityManager);
     m_damageHandler.registerHandlers(m_eventBus);
 
-    m_eventBus.subscribe("gameOver", [this](std::unique_ptr<engine::Action>) {
-        m_isGameOver = true;
-    });
+    m_eventBus.subscribe<GameOverEvent>(
+        [this](GameOverEvent) { m_isGameOver = true; });
 }
 
 void Game::update(double dt) {

@@ -3,7 +3,6 @@
 #include <memory>
 #include <vector>
 
-#include "engine/action.hpp"
 #include "engine/collider_component.hpp"
 #include "engine/entity_manager.hpp"
 #include "engine/entity_types.hpp"
@@ -62,16 +61,13 @@ void WeaponsHandler::handleWeapons(engine::EntityManager& entityManager,
 
 void WeaponsHandler::registerEvents(engine::EventBus& eventBus,
                                     engine::EntityManager& entityManager) {
-    eventBus.subscribe(
-        "shootAction",
-        [&entityManager](std::unique_ptr<engine::Action> action) {
-            if (auto shootAction = dynamic_cast<ShootAction*>(action.get())) {
-                if (shootAction->srcEntity->weapon) {
-                    auto& weapon = *shootAction->srcEntity->weapon;
-                    if (weapon.currentCd <= 0) {
-                        makeBullet(entityManager, *shootAction, weapon);
-                        weapon.currentCd = weapon.fireRate;
-                    }
+    eventBus.subscribe<ShootAction>(
+        [&entityManager](const ShootAction& shootAction) {
+            if (shootAction.srcEntity->weapon) {
+                auto& weapon = *shootAction.srcEntity->weapon;
+                if (weapon.currentCd <= 0) {
+                    makeBullet(entityManager, shootAction, weapon);
+                    weapon.currentCd = weapon.fireRate;
                 }
             }
         });

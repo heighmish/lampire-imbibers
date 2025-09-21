@@ -107,10 +107,9 @@ void CollisionHandler::handleCollisions(engine::EntityVector& entities,
                     outerEntity->transform->position =
                         outerEntity->transform->position.add(distance);
                 }
-                eventBus.publishEvent(
-                    "collision",
-                    std::make_unique<engine::CollisionEvent>(
-                        engine::CollisionEvent(innerEntity, outerEntity)));
+
+                eventBus.publishEvent<engine::CollisionEvent>(
+                    engine::CollisionEvent(innerEntity, outerEntity));
             }
         }
     }

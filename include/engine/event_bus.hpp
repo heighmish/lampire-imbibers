@@ -12,7 +12,7 @@
 #include <functional>
 #include <memory>
 #include <queue>
-#include <string>
+#include <typeindex>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -21,15 +21,27 @@
 namespace engine {
 class EventBus {
    public:
-    void subscribe(std::string actionName,
-                   std::function<void(std::unique_ptr<Action>)> handler);
-    void publishEvent(std::string actionName, std::unique_ptr<Action> event);
     void handleEvents();
 
+    template <typename EventType>
+    void subscribe(std::function<void(const EventType&)> handler) {
+        auto wrapper = [handler](Action* basePtr) {
+            auto eventPtr = static_cast<EventType*>(basePtr);
+            handler(*eventPtr);
+        };
+        m_handlers[std::type_index(typeid(EventType))].push_back(wrapper);
+    }
+
+    template <typename EventType>
+    void publishEvent(EventType event) {
+        m_actions.push(std::make_unique<EventType>(std::move(event)));
+    }
+
    private:
-    std::unordered_map<
-        std::string, std::vector<std::function<void(std::unique_ptr<Action>)>>>
+    std::unordered_map<std::type_index,
+                       std::vector<std::function<void(Action*)>>>
         m_handlers;
-    std::queue<std::pair<std::string, std::unique_ptr<Action>>> m_actions;
+
+    std::queue<std::unique_ptr<Action>> m_actions;
 };
 }  // namespace engine

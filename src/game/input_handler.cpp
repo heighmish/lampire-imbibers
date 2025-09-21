@@ -49,8 +49,7 @@ void InputHandler::handleInputs(engine::EntityManager& entityManager,
             auto spawnPoint = engine::Vec2(player->transform->position);
             auto action = ShootAction(player, spawnPoint,
                                       engine::Vec2(GetMousePosition()));
-            eventBus.publishEvent("shootAction",
-                                  std::make_unique<ShootAction>(action));
+            eventBus.publishEvent<ShootAction>(action);
             TraceLog(LOG_DEBUG, "Finished handling mouse movement");
         }
     }

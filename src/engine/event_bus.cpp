@@ -23,11 +23,12 @@ void EventBus::subscribe(std::string actionName,
 }
 void EventBus::publishEvent(std::string actionName,
                             std::unique_ptr<Action> event) {
-    m_actions.push_back(std::make_pair(actionName, std::move(event)));
+    m_actions.push(std::make_pair(actionName, std::move(event)));
 }
 
 void EventBus::handleEvents() {
-    for (auto& [actionName, action] : m_actions) {
+    while (!m_actions.empty()) {
+        auto& [actionName, action] = m_actions.front();
         TraceLog(LOG_INFO, "Handler found for %s, triggering handler",
                  actionName.c_str());
         if (m_handlers.contains(actionName)) {
@@ -35,7 +36,7 @@ void EventBus::handleEvents() {
                 func(std::move(action));
             }
         }
+        m_actions.pop();
     }
-    m_actions.clear();
 }
 }  // namespace engine

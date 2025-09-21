@@ -13,6 +13,7 @@
 #include "engine/shapes.hpp"
 #include "engine/transform_component.hpp"
 #include "engine/velocity_component.hpp"
+#include "game/damage_component.hpp"
 #include "game/shoot_action.hpp"
 #include "game/weapon_component.hpp"
 #include "raylib.h"
@@ -34,6 +35,7 @@ void makeBullet(engine::EntityManager& entityManager,
         velocity.scale(weapon.projectileSpeed));
     bullet->collider = std::make_unique<engine::ColliderComponent>(shape);
     bullet->lifetime = std::make_unique<engine::LifetimeComponent>(3);
+    bullet->damage = std::make_unique<lampire::DamageComponent>(weapon.damage);
     TraceLog(LOG_INFO,
              "Spawning bullet: src(%f, %f), transformedSrc(%f, %f), final "
              "spawn(%f, %f)",

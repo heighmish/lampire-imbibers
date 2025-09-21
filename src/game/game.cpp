@@ -32,6 +32,7 @@ Game::Game() {
     player->health = std::make_unique<HealthComponent>(100.0);
 
     m_weaponsHandler.registerEvents(m_eventBus, m_entityManager);
+    m_damageHandler.registerHandlers(m_eventBus);
 }
 
 void Game::update(double dt) {
@@ -45,7 +46,7 @@ void Game::update(double dt) {
             m_entityManager.getEntities(engine::Player).front(),
             m_entityManager.getEntities(engine::EntityType::Enemy));
         m_movementSystem.updatePosition(entities, dt);
-        m_collisionHandler.handleCollisions(entities);
+        m_collisionHandler.handleCollisions(entities, m_eventBus);
         m_weaponsHandler.handleWeapons(m_entityManager, dt);
 
         m_lifetimeHandler.UpdateLifetimes(m_entityManager, dt);

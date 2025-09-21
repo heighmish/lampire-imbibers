@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <variant>
 
-#include "engine/entity.hpp"
 #include "engine/entity_manager.hpp"
 #include "engine/entity_types.hpp"
 #include "engine/shapes.hpp"

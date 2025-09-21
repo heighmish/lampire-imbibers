@@ -1,0 +1,32 @@
+#include "game/damage_handler.hpp"
+
+#include <memory>
+
+#include "engine/action.hpp"
+#include "engine/collision_event.hpp"
+#include "engine/entity_types.hpp"
+#include "engine/event_bus.hpp"
+
+namespace lampire {
+void DamageHandler::registerHandlers(engine::EventBus& eventBus) {
+    eventBus.subscribe("collision", [](std::unique_ptr<engine::Action> act) {
+        if (auto collisionEvent = dynamic_cast<engine::CollisionEvent*>(act.get())) {
+            auto e1 = collisionEvent->e1;
+            auto e2 = collisionEvent->e2;
+            if (e1->health && e2->damage && e1->getType() != e2->getType()) {
+                e1->health->currentHealth -= e2->damage->damage;
+                if (e1->health->currentHealth <= 0 && e1->getType() != engine::Player) {
+                    e1->destroy();
+                }
+            }
+
+            if (e1->getType() == engine::Bullet) {
+                // Todo: bullet dies if hits anything
+                // If I add piercing projectiles would need to handle
+                e1->destroy();
+            }
+        }
+    });
+}
+
+}  // namespace lampire

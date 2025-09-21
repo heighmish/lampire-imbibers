@@ -1,10 +1,13 @@
 #include "game/collision_handler.hpp"
 
+#include <memory>
 #include <variant>
 
+#include "engine/collision_event.hpp"
 #include "engine/entity.hpp"
 #include "engine/entity_manager.hpp"
 #include "engine/entity_types.hpp"
+#include "engine/event_bus.hpp"
 #include "engine/shapes.hpp"
 #include "engine/transform_component.hpp"
 #include "raylib.h"
@@ -80,7 +83,8 @@ bool IsColliding(engine::Entity const& Lhs, engine::Entity const& Rhs) {
 
 namespace lampire {
 
-void CollisionHandler::handleCollisions(engine::EntityVector& entities) {
+void CollisionHandler::handleCollisions(engine::EntityVector& entities,
+                                        engine::EventBus& eventBus) {
     for (auto& outerEntity : entities) {
         if (!(outerEntity->collider && outerEntity->transform)) {
             continue;
@@ -103,19 +107,10 @@ void CollisionHandler::handleCollisions(engine::EntityVector& entities) {
                     outerEntity->transform->position =
                         outerEntity->transform->position.add(distance);
                 }
-
-                if (outerEntity->getType() == engine::Bullet &&
-                    innerEntity->getType() == engine::Enemy) {
-                    // Todo: health and bullet damage system
-                    innerEntity->destroy();
-                    outerEntity->destroy();
-                }
-
-                if (outerEntity->getType() == engine::Player &&
-                    innerEntity->getType() == engine::Enemy) {
-                    // Todo: player health and game over screen
-                    innerEntity->destroy();
-                }
+                eventBus.publishEvent(
+                    "collision",
+                    std::make_unique<engine::CollisionEvent>(
+                        engine::CollisionEvent(innerEntity, outerEntity)));
             }
         }
     }

@@ -6,11 +6,12 @@
 /// Weapon Handler subscribes a function that spawns bullets
 /// Actions need to be generic
 /// We need a way to store functions for specific event types
-/// Lets start with points and then maybe try template it
+/// Lets start with pointers and then maybe try template it
 #pragma once
 
 #include <functional>
 #include <memory>
+#include <queue>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -29,6 +30,6 @@ class EventBus {
     std::unordered_map<
         std::string, std::vector<std::function<void(std::unique_ptr<Action>)>>>
         m_handlers;
-    std::vector<std::pair<std::string, std::unique_ptr<Action>>> m_actions;
+    std::queue<std::pair<std::string, std::unique_ptr<Action>>> m_actions;
 };
 }  // namespace engine

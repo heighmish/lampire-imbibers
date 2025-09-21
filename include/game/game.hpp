@@ -7,6 +7,7 @@
 #include "engine/lifetime_handler.hpp"
 #include "engine/renderer.hpp"
 #include "game/ai_handler.hpp"
+#include "game/damage_handler.hpp"
 #include "game/input_handler.hpp"
 #include "movement_handler.hpp"
 #include "weapons_handler.hpp"
@@ -31,6 +32,7 @@ class Game {
     WeaponsHandler m_weaponsHandler;
     engine::LifetimeHandler m_lifetimeHandler;
     engine::EventBus m_eventBus;
+    DamageHandler m_damageHandler;
 
     bool m_isPaused = false;
 };

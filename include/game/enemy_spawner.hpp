@@ -12,6 +12,8 @@
 #include "engine/transform_component.hpp"
 #include "engine/velocity_component.hpp"
 #include "game/ai_component.hpp"
+#include "game/damage_component.hpp"
+#include "game/health_component.hpp"
 #include "raylib.h"
 
 namespace lampire {
@@ -37,6 +39,8 @@ class EnemySpawner {
             std::make_unique<engine::TransformComponent>(xRand, yRand);
         newEnemy->velocity = std::make_unique<engine::VelocityComponent>();
         newEnemy->ai = std::make_unique<AiComponent>();
+        newEnemy->damage = std::make_unique<DamageComponent>(1);
+        newEnemy->health = std::make_unique<HealthComponent>(1);
         m_timeSinceLastSpawn = m_spawnTime;
     }
 

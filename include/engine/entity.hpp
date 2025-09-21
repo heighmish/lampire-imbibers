@@ -10,6 +10,7 @@
 #include "engine/velocity_component.hpp"
 #include "entity_types.hpp"
 #include "game/ai_component.hpp"
+#include "game/damage_component.hpp"
 #include "game/health_component.hpp"
 #include "game/weapon_component.hpp"
 
@@ -28,6 +29,7 @@ class Entity {
     std::unique_ptr<lampire::WeaponComponent> weapon;
     std::unique_ptr<LifetimeComponent> lifetime;
     std::unique_ptr<lampire::HealthComponent> health;
+    std::unique_ptr<lampire::DamageComponent> damage;
 
     bool is_alive = true;
 

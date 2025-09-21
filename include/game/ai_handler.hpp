@@ -16,12 +16,14 @@ class AiHandler {
                          std::ranges::view auto aiEntities) {
         auto playerShape = std::get<engine::Rect>(player->collider->shape);
         for (auto& entity : aiEntities) {
-            if (entity->ai && entity->transform && entity->velocity) {
+            if (entity->ai && entity->transform && entity->velocity &&
+                entity->collider) {
                 auto playerCenter =
                     player->transform->position.add(engine::Vec2(
                         playerShape.width / 2, playerShape.height / 2));
                 auto diffVec =
-                    playerCenter.subtract(entity->transform->position);
+                    playerCenter.subtract(entity->transform->position.add(
+                        getCenter(entity->collider->shape)));
                 auto dist = diffVec.length();
 
                 auto dir = diffVec.normalise();

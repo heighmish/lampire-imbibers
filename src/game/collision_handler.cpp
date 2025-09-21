@@ -80,7 +80,7 @@ bool IsColliding(engine::Entity const& Lhs, engine::Entity const& Rhs) {
 
 namespace lampire {
 
-void CollisionHandler::HandleCollisions(engine::EntityVector& entities) {
+void CollisionHandler::handleCollisions(engine::EntityVector& entities) {
     for (auto& outerEntity : entities) {
         if (!(outerEntity->collider && outerEntity->transform)) {
             continue;

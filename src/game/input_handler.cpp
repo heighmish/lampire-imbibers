@@ -5,14 +5,17 @@
 #include "engine/entity.hpp"
 #include "engine/entity_manager.hpp"
 #include "engine/entity_types.hpp"
+#include "engine/event_bus.hpp"
 #include "engine/transform_component.hpp"
+#include "engine/vec2.hpp"
 #include "engine/velocity_component.hpp"
+#include "game/shoot_action.hpp"
 #include "raylib.h"
 
 namespace lampire {
 constexpr int PLAYER_MOVE_SPEED = 5000;
-void InputHandler::HandleInputs(engine::EntityManager& entityManager,
-                                std::vector<ShootAction>& actions, double dt,
+void InputHandler::handleInputs(engine::EntityManager& entityManager,
+                                engine::EventBus& eventBus, double dt,
                                 bool& paused) {
     if (IsKeyPressed(KEY_P)) {
         paused = !paused;
@@ -44,8 +47,10 @@ void InputHandler::HandleInputs(engine::EntityManager& entityManager,
 
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
             auto spawnPoint = engine::Vec2(player->transform->position);
-            actions.push_back(ShootAction(player, spawnPoint,
-                                          engine::Vec2(GetMousePosition())));
+            auto action = ShootAction(player, spawnPoint,
+                                      engine::Vec2(GetMousePosition()));
+            eventBus.publishEvent("shootAction",
+                                  std::make_unique<ShootAction>(action));
             TraceLog(LOG_DEBUG, "Finished handling mouse movement");
         }
     }

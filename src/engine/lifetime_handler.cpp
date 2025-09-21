@@ -1,6 +1,5 @@
 #include "engine/lifetime_handler.hpp"
 
-#include "engine/entity.hpp"
 #include "engine/entity_manager.hpp"
 
 namespace engine {

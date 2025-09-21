@@ -5,6 +5,6 @@
 namespace lampire {
 class CollisionHandler {
    public:
-    void HandleCollisions(engine::EntityVector& entities);
+    void handleCollisions(engine::EntityVector& entities);
 };
 }  // namespace lampire

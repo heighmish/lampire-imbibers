@@ -1,14 +1,13 @@
 #pragma once
 
-#include <vector>
-
-#include "../engine/entity_manager.hpp"
-#include "../engine/lifetime_handler.hpp"
-#include "../engine/renderer.hpp"
-#include "../game/ai_handler.hpp"
-#include "../game/input_handler.hpp"
 #include "collision_handler.hpp"
 #include "enemy_spawner.hpp"
+#include "engine/entity_manager.hpp"
+#include "engine/event_bus.hpp"
+#include "engine/lifetime_handler.hpp"
+#include "engine/renderer.hpp"
+#include "game/ai_handler.hpp"
+#include "game/input_handler.hpp"
 #include "movement_handler.hpp"
 #include "weapons_handler.hpp"
 
@@ -31,8 +30,7 @@ class Game {
     CollisionHandler m_collisionHandler;
     WeaponsHandler m_weaponsHandler;
     engine::LifetimeHandler m_lifetimeHandler;
-
-    std::vector<ShootAction> m_shootActions;
+    engine::EventBus m_eventBus;
 
     bool m_isPaused = false;
 };

@@ -1,18 +1,15 @@
 #pragma once
 
-#include <vector>
-
-// Forward Declarations
-namespace engine {
-class EntityManager;
-}
+#include "engine/entity_manager.hpp"
+#include "engine/event_bus.hpp"
 
 namespace lampire {
 struct ShootAction;
 
 class WeaponsHandler {
    public:
-    void HandleWeapons(engine::EntityManager& entityManager,
-                       std::vector<ShootAction> actions, double dt);
+    void handleWeapons(engine::EntityManager& entityManager, double dt);
+    void registerEvents(engine::EventBus& eventBus,
+                        engine::EntityManager& entityManager);
 };
 }  // namespace lampire

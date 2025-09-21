@@ -2,7 +2,6 @@
 
 #include <variant>
 
-#include "engine/entity.hpp"
 #include "engine/entity_manager.hpp"
 #include "engine/renderable_component.hpp"
 #include "engine/shapes.hpp"

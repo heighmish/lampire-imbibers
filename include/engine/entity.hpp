@@ -8,23 +8,10 @@
 #include "engine/renderable_component.hpp"
 #include "engine/transform_component.hpp"
 #include "engine/velocity_component.hpp"
-#include "entity_types.hpp"  // This is an enum, so it's fine to include.
+#include "entity_types.hpp"
 #include "game/ai_component.hpp"
+#include "game/health_component.hpp"
 #include "game/weapon_component.hpp"
-
-// Forward declarations for all component types
-namespace engine {
-class VelocityComponent;
-class TransformComponent;
-class RenderableComponent;
-class ColliderComponent;
-class LifetimeComponent;
-}  // namespace engine
-
-namespace lampire {
-class AiComponent;
-class WeaponComponent;
-}  // namespace lampire
 
 namespace engine {
 class Entity {
@@ -40,6 +27,7 @@ class Entity {
     std::unique_ptr<lampire::AiComponent> ai;
     std::unique_ptr<lampire::WeaponComponent> weapon;
     std::unique_ptr<LifetimeComponent> lifetime;
+    std::unique_ptr<lampire::HealthComponent> health;
 
     bool is_alive = true;
 

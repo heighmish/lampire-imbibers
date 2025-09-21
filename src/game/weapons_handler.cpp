@@ -3,10 +3,11 @@
 #include <memory>
 #include <vector>
 
+#include "engine/action.hpp"
 #include "engine/collider_component.hpp"
-#include "engine/entity.hpp"
 #include "engine/entity_manager.hpp"
 #include "engine/entity_types.hpp"
+#include "engine/event_bus.hpp"
 #include "engine/lifetime_component.hpp"
 #include "engine/renderable_component.hpp"
 #include "engine/shapes.hpp"
@@ -43,8 +44,7 @@ void makeBullet(engine::EntityManager& entityManager,
 
 namespace lampire {
 
-void WeaponsHandler::HandleWeapons(engine::EntityManager& entityManager,
-                                   std::vector<ShootAction> actions,
+void WeaponsHandler::handleWeapons(engine::EntityManager& entityManager,
                                    double dt) {
     auto entities = entityManager.getEntities();
     for (auto& entity : entities) {
@@ -56,16 +56,23 @@ void WeaponsHandler::HandleWeapons(engine::EntityManager& entityManager,
             entity->weapon->currentCd -= dt;
         }
     }
+}
 
-    for (auto& action : actions) {
-        if (action.srcEntity->weapon) {
-            auto& weapon = *action.srcEntity->weapon;
-            if (weapon.currentCd <= 0) {
-                makeBullet(entityManager, action, weapon);
-                weapon.currentCd = weapon.fireRate;
+void WeaponsHandler::registerEvents(engine::EventBus& eventBus,
+                                    engine::EntityManager& entityManager) {
+    eventBus.subscribe(
+        "shootAction",
+        [&entityManager](std::unique_ptr<engine::Action> action) {
+            if (auto shootAction = dynamic_cast<ShootAction*>(action.get())) {
+                if (shootAction->srcEntity->weapon) {
+                    auto& weapon = *shootAction->srcEntity->weapon;
+                    if (weapon.currentCd <= 0) {
+                        makeBullet(entityManager, *shootAction, weapon);
+                        weapon.currentCd = weapon.fireRate;
+                    }
+                }
             }
-        }
-    }
+        });
 }
 
 }  // namespace lampire

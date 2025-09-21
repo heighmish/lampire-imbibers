@@ -5,6 +5,7 @@ Todo:
 * Score
 * Proper HP and damage
 * Player can die/restart
+* Enemies dont spawn next to player
 
 After Core ^:
 * New enemy types

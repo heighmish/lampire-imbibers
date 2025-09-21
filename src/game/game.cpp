@@ -11,6 +11,7 @@
 #include "engine/shapes.hpp"
 #include "engine/transform_component.hpp"
 #include "engine/velocity_component.hpp"
+#include "game/health_component.hpp"
 #include "game/weapon_component.hpp"
 #include "raylib.h"
 
@@ -28,13 +29,15 @@ Game::Game() {
     player->velocity = std::make_unique<engine::VelocityComponent>(0, 0);
     player->collider = std::make_unique<engine::ColliderComponent>(rect);
     player->weapon = std::make_unique<WeaponComponent>(0, 1, 1, 50);
+    player->health = std::make_unique<HealthComponent>(100.0);
+
+    m_weaponsHandler.registerEvents(m_eventBus, m_entityManager);
 }
 
 void Game::update(double dt) {
     m_entityManager.update();
 
-    m_inputHandler.HandleInputs(m_entityManager, m_shootActions, dt,
-                                m_isPaused);
+    m_inputHandler.handleInputs(m_entityManager, m_eventBus, dt, m_isPaused);
 
     if (!m_isPaused) {
         auto entities = m_entityManager.getEntities();
@@ -42,12 +45,12 @@ void Game::update(double dt) {
             m_entityManager.getEntities(engine::Player).front(),
             m_entityManager.getEntities(engine::EntityType::Enemy));
         m_movementSystem.updatePosition(entities, dt);
-        m_collisionHandler.HandleCollisions(entities);
-        m_weaponsHandler.HandleWeapons(m_entityManager, m_shootActions, dt);
+        m_collisionHandler.handleCollisions(entities);
+        m_weaponsHandler.handleWeapons(m_entityManager, dt);
 
         m_lifetimeHandler.UpdateLifetimes(m_entityManager, dt);
         m_enemySpawner.spawnEnemy(m_entityManager, dt);
-        m_shootActions.clear();
+        m_eventBus.handleEvents();
     }
 }
 

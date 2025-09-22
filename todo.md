@@ -6,6 +6,7 @@ Todo:
 * Proper HP and damage - The systems are there I guess
 * Player can die/restart
 * Enemies dont spawn next to player
+* Resizable window?
 
 After Core ^:
 * New enemy types

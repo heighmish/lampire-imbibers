@@ -14,6 +14,7 @@
 #include "engine/velocity_component.hpp"
 #include "game/game_over_event.hpp"
 #include "game/health_component.hpp"
+#include "game/input.hpp"
 #include "game/weapon_component.hpp"
 #include "raylib.h"
 
@@ -22,6 +23,17 @@ constexpr int PLAYER_WIDTH = 25;
 constexpr int PLAYER_HEIGHT = 25;
 
 Game::Game() {
+    m_weaponsHandler.registerEvents(m_eventBus, m_entityManager);
+    m_damageHandler.registerHandlers(m_eventBus);
+    m_eventBus.subscribe<GameOverEvent>(
+        [this](GameOverEvent) { m_isGameOver = true; });
+
+    restart();
+}
+
+void Game::restart() {
+    m_entityManager.clear();
+
     auto player = m_entityManager.addEntity(engine::Player);
     auto rect = engine::Rect{.height = PLAYER_HEIGHT, .width = PLAYER_WIDTH};
     player->renderable =
@@ -32,18 +44,13 @@ Game::Game() {
     player->collider = std::make_unique<engine::ColliderComponent>(rect);
     player->weapon = std::make_unique<WeaponComponent>(0, 1, 1, 50);
     player->health = std::make_unique<HealthComponent>(10.0);
-
-    m_weaponsHandler.registerEvents(m_eventBus, m_entityManager);
-    m_damageHandler.registerHandlers(m_eventBus);
-
-    m_eventBus.subscribe<GameOverEvent>(
-        [this](GameOverEvent) { m_isGameOver = true; });
+    m_isGameOver = false;
 }
 
-void Game::update(double dt) {
+void Game::update(Input inputs, double dt) {
     m_entityManager.update();
 
-    m_inputHandler.handleInputs(m_entityManager, m_eventBus, dt, m_isPaused);
+    m_inputHandler.handleInputs(m_entityManager, m_eventBus, dt, inputs);
 
     if (!m_isPaused && !m_isGameOver) {
         auto entities = m_entityManager.getEntities();
@@ -71,4 +78,32 @@ void Game::render() {
     }
 }
 void Game::shutdown() {}
+
+void Game::togglePause() { m_isPaused = !m_isPaused; }
+
+lampire::Input checkInputs() {
+    auto inputs = Input{};
+
+    if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S)) {
+        inputs.moveDown = true;
+    }
+
+    if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) {
+        inputs.moveUp = true;
+    }
+
+    if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)) {
+        inputs.moveLeft = true;
+    }
+
+    if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) {
+        inputs.moveRight = true;
+    }
+
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+        inputs.isMouseDown = true;
+    }
+    return inputs;
+}
+
 }  // namespace lampire

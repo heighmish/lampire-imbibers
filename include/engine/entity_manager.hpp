@@ -14,6 +14,7 @@ class EntityManager {
     EntityManager() = default;
     ~EntityManager() = default;
     void update();
+    void clear();
     EntityVector& getEntities();
     std::ranges::view auto getEntities(EntityType type) {
         return m_entities | std::ranges::views::filter(

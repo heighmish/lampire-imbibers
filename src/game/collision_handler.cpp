@@ -13,6 +13,8 @@
 #include "raylib.h"
 #include "raymath.h"
 
+// Todo: now ive removed the collision logic and emit events, this should in the
+// engine probably. Although I do still have that no overlapping check
 namespace {  // Anonymous namespace for private implementation details
 
 bool checkCollision(const engine::Circle& circle,

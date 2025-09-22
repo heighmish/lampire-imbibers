@@ -9,6 +9,7 @@
 #include "game/ai_handler.hpp"
 #include "game/damage_handler.hpp"
 #include "game/input_handler.hpp"
+#include "input.hpp"
 #include "movement_handler.hpp"
 #include "weapons_handler.hpp"
 
@@ -17,9 +18,11 @@ class Game {
    public:
     Game();
     ~Game() = default;
-    void update(double dt);
+    void update(Input inputs, double dt);
     void render();
     void shutdown();
+    void togglePause();
+    void restart();
 
    private:
     engine::EntityManager m_entityManager;

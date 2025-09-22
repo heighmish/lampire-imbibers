@@ -1,6 +1,7 @@
 #include <raylib.h>
 
 #include "game/game.hpp"
+#include "game/input.hpp"
 
 int main() {
     const int screenWidth = 800;
@@ -15,10 +16,19 @@ int main() {
     double accumulator = 0.0;
 
     while (!WindowShouldClose()) {
+        if (IsKeyPressed(KEY_P)) {
+            lampireGame.togglePause();
+        }
+
+        if (IsKeyPressed(KEY_R)) {
+            lampireGame.restart();
+        }
+
+        auto inputs = lampire::checkInputs();
         accumulator += GetFrameTime();
 
         while (accumulator >= dt) {
-            lampireGame.update(dt);
+            lampireGame.update(inputs, dt);
             accumulator -= dt;
         }
 

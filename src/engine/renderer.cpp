@@ -31,6 +31,13 @@ void Renderer::drawGameOverScreen() {
     auto fontSize = 40;
     auto centerX = centerTextX(heading, fontSize, GetScreenWidth() / 2);
     DrawText(heading, centerX, GetScreenHeight() / 2, fontSize, WHITE);
+
+    auto subHeading = "Press \"r\" to restart";
+    auto subHeadingFontSize = 20;
+    auto subHeadingX =
+        centerTextX(subHeading, subHeadingFontSize, GetScreenWidth() / 2);
+    DrawText(subHeading, subHeadingX, (GetScreenHeight() / 2) + 50,
+             subHeadingFontSize, WHITE);
 }
 
 void Renderer::drawPauseScreen() {

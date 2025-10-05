@@ -12,7 +12,7 @@
 #include "engine/shapes.hpp"
 #include "engine/transform_component.hpp"
 #include "engine/velocity_component.hpp"
-#include "game/game_over_event.hpp"
+#include "game/death_event.hpp"
 #include "game/health_component.hpp"
 #include "game/input.hpp"
 #include "game/weapon_component.hpp"
@@ -25,9 +25,15 @@ constexpr int PLAYER_HEIGHT = 25;
 Game::Game() {
     m_weaponsHandler.registerEvents(m_eventBus, m_entityManager);
     m_damageHandler.registerHandlers(m_eventBus);
-    m_eventBus.subscribe<GameOverEvent>(
-        [this](GameOverEvent) { m_isGameOver = true; });
+    m_eventBus.subscribe<DeathEvent>([this](DeathEvent event) {
+        if (event.entity->getType() == engine::Enemy) {
+            m_score++;
+        }
 
+        if (event.entity->getType() == engine::Player) {
+            m_isGameOver = true;
+        }
+    });
     restart();
 }
 
@@ -45,6 +51,7 @@ void Game::restart() {
     player->weapon = std::make_unique<WeaponComponent>(0, 1, 1, 50);
     player->health = std::make_unique<HealthComponent>(10.0);
     m_isGameOver = false;
+    m_score = 0;
 }
 
 void Game::update(Input inputs, double dt) {
@@ -70,7 +77,7 @@ void Game::update(Input inputs, double dt) {
 
 void Game::render() {
     auto entities = m_entityManager.getEntities();
-    m_renderer.renderEntities(entities);
+    m_renderer.renderEntities(entities, m_score);
     if (m_isGameOver) {
         m_renderer.drawGameOverScreen();
     } else if (m_isPaused) {

@@ -6,7 +6,7 @@
 #include "engine/entity_manager.hpp"
 #include "engine/entity_types.hpp"
 #include "engine/event_bus.hpp"
-#include "game/game_over_event.hpp"
+#include "game/death_event.hpp"
 
 namespace lampire {
 void DamageHandler::registerHandlers(engine::EventBus& eventBus) {
@@ -17,17 +17,11 @@ void DamageHandler::registerHandlers(engine::EventBus& eventBus) {
             if (e1->health && e2->damage && e1->getType() != e2->getType()) {
                 e1->health->tryDamage(e2->damage->damage);
                 if (e1->health->currentHealth <= 0) {
-                    if (e1->getType() == engine::Player) {
-                        eventBus.publishEvent<GameOverEvent>(
-                            GameOverEvent());  // really this should just
-                                               // publish a death
-                                               // notification and
-                                               // somrthing else should
-                                               // handle it, but seems
-                                               // overboard for this
-                    } else {
+                    if (e1->getType() != engine::Player) {
                         e1->destroy();
                     }
+
+                    eventBus.publishEvent(DeathEvent(e1));
                 }
             }
 

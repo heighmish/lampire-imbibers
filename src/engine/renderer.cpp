@@ -12,7 +12,10 @@
 
 namespace engine {
 
-void Renderer::renderEntities(EntityVector& entities) {
+const int FONT_SIZE = 40;
+const int HALF_FONT = FONT_SIZE / 2;
+
+void Renderer::renderEntities(EntityVector& entities, float score) {
     for (auto const& entity : entities) {
         if (entity->renderable && entity->transform) {
             drawShape(*entity->renderable, *entity->transform);
@@ -24,27 +27,25 @@ void Renderer::renderEntities(EntityVector& entities) {
                      0, GetScreenHeight() - 50, 30, WHITE);
         }
     }
+    auto scoreText = std::format("Score: {}", score);
+    DrawText(scoreText.c_str(), 0, 0, HALF_FONT, WHITE);
 }
 
 void Renderer::drawGameOverScreen() {
     auto heading = "GAME OVER";
-    auto fontSize = 40;
-    auto centerX = centerTextX(heading, fontSize, GetScreenWidth() / 2);
-    DrawText(heading, centerX, GetScreenHeight() / 2, fontSize, WHITE);
+    auto centerX = centerTextX(heading, FONT_SIZE, GetScreenWidth() / 2);
+    DrawText(heading, centerX, GetScreenHeight() / 2, FONT_SIZE, WHITE);
 
     auto subHeading = "Press \"r\" to restart";
-    auto subHeadingFontSize = 20;
-    auto subHeadingX =
-        centerTextX(subHeading, subHeadingFontSize, GetScreenWidth() / 2);
-    DrawText(subHeading, subHeadingX, (GetScreenHeight() / 2) + 50,
-             subHeadingFontSize, WHITE);
+    auto subHeadingX = centerTextX(subHeading, HALF_FONT, GetScreenWidth() / 2);
+    DrawText(subHeading, subHeadingX, (GetScreenHeight() / 2) + 50, HALF_FONT,
+             WHITE);
 }
 
 void Renderer::drawPauseScreen() {
     auto heading = "Game is paused";
-    auto fontSize = 40;
-    auto centerX = centerTextX(heading, fontSize, GetScreenWidth() / 2);
-    DrawText(heading, centerX, GetScreenHeight() / 2, fontSize, WHITE);
+    auto centerX = centerTextX(heading, FONT_SIZE, GetScreenWidth() / 2);
+    DrawText(heading, centerX, GetScreenHeight() / 2, FONT_SIZE, WHITE);
 
     auto subHeading = "Press \"p\" to unpause";
     auto subHeadingFontSize = 20;

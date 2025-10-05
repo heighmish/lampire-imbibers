@@ -7,6 +7,7 @@ int main() {
     const int screenWidth = 800;
     const int screenHeight = 600;
 
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Lampire Imbibers");
     SetTraceLogLevel(LOG_INFO);
 
@@ -35,7 +36,7 @@ int main() {
         BeginDrawing();
         ClearBackground(BLACK);
         lampireGame.render();
-        DrawFPS(0, 0);
+        DrawFPS(0, 40);
         EndDrawing();
     }
 

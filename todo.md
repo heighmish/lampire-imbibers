@@ -1,17 +1,27 @@
 Todo:
 * Either levels with fixed number of enemies or unlimited
-* Enemies drop xp
+* Enemies drop xp/gold (maybe)
 * Leveling system -> pick between 3 things
 * Score
-* Proper HP and damage - The systems are there I guess
-* Player can die/restart
+* Proper HP and damage [x] (maybe can be improved?)
+* Player can die/restart [x]
 * Enemies dont spawn next to player
-* Resizable window?
+* Resizable window? [x]
+* Obstackles?
 
 After Core ^:
 * New enemy types
 * Weapon enhancements not just damage or speed
 * Powerups like nightmare zone
+
+___
+Endless Levels:
+* Global timer
+
+Set Levels:
+* Spawn enemies for a set time or until X enemies killed
+* End of level shop (would require gold/xp) or just pick something at end of level
+
 
 ---
 

@@ -7,10 +7,13 @@
 #include "engine/entity.hpp"
 #include "engine/entity_types.hpp"
 #include "engine/event_bus.hpp"
+#include "engine/lifetime_component.hpp"
 #include "engine/lifetime_handler.hpp"
+#include "engine/random_generator.hpp"
 #include "engine/renderable_component.hpp"
 #include "engine/shapes.hpp"
 #include "engine/transform_component.hpp"
+#include "engine/vec2.hpp"
 #include "engine/velocity_component.hpp"
 #include "game/death_event.hpp"
 #include "game/health_component.hpp"
@@ -52,6 +55,7 @@ void Game::restart() {
     player->health = std::make_unique<HealthComponent>(10.0);
     m_isGameOver = false;
     m_score = 0;
+    m_gameTimer = 0;
 }
 
 void Game::update(Input inputs, double dt) {
@@ -72,12 +76,13 @@ void Game::update(Input inputs, double dt) {
         m_lifetimeHandler.UpdateLifetimes(m_entityManager, dt);
         m_enemySpawner.spawnEnemy(m_entityManager, dt);
         m_eventBus.handleEvents();
+        m_gameTimer += dt;
     }
 }
 
 void Game::render() {
     auto entities = m_entityManager.getEntities();
-    m_renderer.renderEntities(entities, m_score);
+    m_renderer.renderEntities(entities, m_score, m_gameTimer);
     if (m_isGameOver) {
         m_renderer.drawGameOverScreen();
     } else if (m_isPaused) {

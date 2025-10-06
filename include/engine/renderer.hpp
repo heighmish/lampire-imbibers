@@ -13,7 +13,7 @@ struct Circle;
 
 class Renderer {
    public:
-    void renderEntities(EntityVector& entities, float score);
+    void renderEntities(EntityVector& entities, float score, float timer);
     void drawPauseScreen();
     void drawGameOverScreen();
     int centerTextX(const char* text, int fontSize, int x);

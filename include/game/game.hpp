@@ -40,5 +40,6 @@ class Game {
     bool m_isPaused = false;
     bool m_isGameOver = false;
     float m_score = 0;
+    float m_gameTimer = 0;
 };
 }  // namespace lampire

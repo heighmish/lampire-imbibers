@@ -21,7 +21,7 @@ void DamageHandler::registerHandlers(engine::EventBus& eventBus) {
                         e1->destroy();
                     }
 
-                    eventBus.publishEvent(DeathEvent(e1));
+                    eventBus.publishEvent(DeathEvent(e1, e2));
                 }
             }
 

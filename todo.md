@@ -2,7 +2,7 @@ Todo:
 * Either levels with fixed number of enemies or unlimited
 * Enemies drop xp/gold (maybe)
 * Leveling system -> pick between 3 things
-* Score
+* Score [x] (currently every enemy is just 1 value)
 * Proper HP and damage [x] (maybe can be improved?)
 * Player can die/restart [x]
 * Enemies dont spawn next to player

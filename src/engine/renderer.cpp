@@ -15,7 +15,8 @@ namespace engine {
 const int FONT_SIZE = 40;
 const int HALF_FONT = FONT_SIZE / 2;
 
-void Renderer::renderEntities(EntityVector& entities, float score) {
+void Renderer::renderEntities(EntityVector& entities, float score,
+                              float timer) {
     for (auto const& entity : entities) {
         if (entity->renderable && entity->transform) {
             drawShape(*entity->renderable, *entity->transform);
@@ -29,6 +30,14 @@ void Renderer::renderEntities(EntityVector& entities, float score) {
     }
     auto scoreText = std::format("Score: {}", score);
     DrawText(scoreText.c_str(), 0, 0, HALF_FONT, WHITE);
+
+    auto minutes = static_cast<int>(timer) / 60;
+    auto seconds = static_cast<int>(timer) % 60;
+
+    auto timerText = std::format("{}:{}", minutes, seconds);
+    DrawText(timerText.c_str(),
+             GetScreenWidth() - MeasureText(timerText.c_str(), HALF_FONT) - 5,
+             0, HALF_FONT, WHITE);
 }
 
 void Renderer::drawGameOverScreen() {
